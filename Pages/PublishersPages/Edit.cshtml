@@ -1,0 +1,40 @@
+@page
+@model Pintea_Razvan_Lab2.Pages.PublishersPages.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Publishers</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Publishers.ID" />
+            <div class="form-group">
+                <label asp-for="Publishers.PublisherName" class="control-label"></label>
+                <input asp-for="Publishers.PublisherName" class="form-control" />
+                <span asp-validation-for="Publishers.PublisherName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Publishers.Books" class="control-label"></label>
+                <input asp-for="Publishers.Books" class="form-control" />
+                <span asp-validation-for="Publishers.Books" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

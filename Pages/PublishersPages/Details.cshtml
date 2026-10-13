@@ -1,0 +1,31 @@
+@page
+@model Pintea_Razvan_Lab2.Pages.PublishersPages.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Publishers</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Publishers.PublisherName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Publishers.PublisherName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Publishers.Books)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Publishers.Books)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Publishers.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
