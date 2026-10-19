@@ -1,5 +1,5 @@
 
-@page
+@page "/"
 @model Pintea_Razvan_Lab2.Pages.BookPages.IndexModel
 
 @{
@@ -27,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Book[0].PublishingDate)
             </th>
+<th>
+ @Html.DisplayNameFor(model => model.Book[0].BookCategories)
+ </th>
             <th>
                 Publisher
             </th>
@@ -34,12 +37,16 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Book)
+    @foreach (var item in Model.BookD.Books) {
+        string selectedRow = "";
+        if (item.ID == Model.BookID)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
+            selectedRow = "table-success";
+        }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
                 <td>
                     @(item.Authors == null
                         ? ""
@@ -51,9 +58,18 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PublishingDate)
                 </td>
-                <td>
-                    @(item.Publisher == null ? "" : item.Publisher.PublisherName)
-                </td>
+            <td>
+                @(item.Publisher == null ? "" : item.Publisher.PublisherName)
+            </td>
+            <td>
+                @if (item.BookCategories != null)
+                {
+                    foreach (var category in item.BookCategories)
+                    {
+                        <text>@category.Category.ID @category.Category.CategoryName<br /></text>
+                    }
+                }
+            </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
@@ -63,3 +79,4 @@
         }
     </tbody>
 </table>
+

@@ -8,6 +8,7 @@ namespace Pintea_Razvan_Lab2.Pages.BookPages;
 public class DetailsModel : PageModel
 {
     private readonly Pintea_Razvan_Lab2Context _context;
+
     public DetailsModel(Pintea_Razvan_Lab2Context context)
     {
         _context = context;
@@ -22,15 +23,19 @@ public class DetailsModel : PageModel
             return NotFound();
         }
 
-        var book = await _context.Book.FirstOrDefaultAsync(m => m.ID == id);
+        var book = await _context.Book
+            .Include(b => b.Publisher)
+            .Include(b => b.Authors)
+            .Include(b => b.BookCategories)
+                .ThenInclude(bc => bc.Category)
+            .FirstOrDefaultAsync(m => m.ID == id);
+
         if (book is null)
         {
             return NotFound();
         }
-        else
-        {
-            Book = book;
-        }
+
+        Book = book;
 
         return Page();
     }

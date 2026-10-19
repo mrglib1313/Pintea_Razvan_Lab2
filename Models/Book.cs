@@ -21,6 +21,7 @@ namespace Pintea_Razvan_Lab2.Models
         public DateTime PublishingDate { get; set; }
         public int? PublisherID { get; set; }
         public Publishers? Publisher { get; set; }
+        public ICollection<BookCategory>? BookCategories { get; set; }
     }
 
 }
