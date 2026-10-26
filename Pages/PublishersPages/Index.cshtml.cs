@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Pintea_Razvan_Lab2.Models;
+using Pintea_Razvan_Lab2.Models.ViewModels;
 
 namespace Pintea_Razvan_Lab2.Pages.PublishersPages;
 
@@ -14,10 +14,33 @@ public class IndexModel : PageModel
         _context = context;
     }
 
-    public IList<Publishers> Publishers { get; set; } = default!;
+    public PublisherIndexData PublisherData { get; set; } = new();
+public IList<Publishers> Publishers { get; set; } = new List<Publishers>();
+    public int PublisherID { get; set; }
+    public int BookID { get; set; }
 
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(int? id, int? bookID)
     {
-        Publishers = await _context.Publishers.ToListAsync();
+        PublisherData = new PublisherIndexData();
+        
+    PublisherData.Publishers = await _context.Publishers
+
+            .Include(p => p.Books)
+                .ThenInclude(b => b.Authors)
+            .OrderBy(p => p.PublisherName)
+            .ToListAsync();
+        Publishers = PublisherData.Publishers.ToList();
+        if (id != null)
+        {
+            PublisherID = id.Value;
+
+            var publisher = PublisherData.Publishers
+                .SingleOrDefault(p => p.ID == id.Value);
+
+            if (publisher != null)
+            {
+                PublisherData.Books = publisher.Books;
+            }
+        }
     }
 }

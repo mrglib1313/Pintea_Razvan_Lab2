@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Pintea_Razvan_Lab2.Models;
@@ -14,10 +14,23 @@ public class IndexModel : PageModel
         _context = context;
     }
 
-    public IList<Category> Category { get; set; } = default!;
+    public IList<Category> Category { get; set; } = new List<Category>();
 
-    public async Task OnGetAsync()
+    public Category? SelectedCategory { get; set; }
+
+    public async Task OnGetAsync(int? id)
     {
-        Category = await _context.Category.ToListAsync();
+        Category = await _context.Category
+            .Include(c => c.BookCategories!)
+                .ThenInclude(bc => bc.Book)
+                    .ThenInclude(b => b.Authors)
+            .OrderBy(c => c.CategoryName)
+            .ToListAsync();
+
+        if (id.HasValue)
+        {
+            SelectedCategory = Category
+                .FirstOrDefault(c => c.ID == id.Value);
+        }
     }
 }

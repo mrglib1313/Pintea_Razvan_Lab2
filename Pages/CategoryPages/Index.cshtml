@@ -1,42 +1,55 @@
 @page
 @model Pintea_Razvan_Lab2.Pages.CategoryPages.IndexModel
+@using Pintea_Razvan_Lab2.Models
 
-@{
-    ViewData["Title"] = "Index";
-}
+<h1>Categories</h1>
 
-<h1>Index</h1>
-
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Category[0].CategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category[0].BookCategories)
-            </th>
-            <th></th>
+            <th>Category</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Category) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.BookCategories)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var category in Model.Category)
+        {
+            <tr>
+                <td>
+                    <a asp-page="./Index" asp-route-id="@category.ID">
+                        @category.CategoryName
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@if (Model.SelectedCategory != null)
+{
+    <h2>Books in category: @Model.SelectedCategory.CategoryName</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bookCategory in Model.SelectedCategory.BookCategories
+                ?? Enumerable.Empty<BookCategory>())
+            {
+                <tr>
+                    <td>@bookCategory.Book.Title</td>
+                    <td>
+                        @(bookCategory.Book.Authors == null
+                            ? ""
+                            : $"{bookCategory.Book.Authors.FirstName} {bookCategory.Book.Authors.LastName}")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-page="./Index">Show all categories</a>
+}
