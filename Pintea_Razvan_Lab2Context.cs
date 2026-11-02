@@ -9,6 +9,8 @@ public class Pintea_Razvan_Lab2Context : DbContext
     }
 
     public DbSet<Pintea_Razvan_Lab2.Models.Book> Book { get; set; } = default!;
+    public DbSet<Pintea_Razvan_Lab2.Models.Member> Member { get; set; } = default!;
+    public DbSet<Pintea_Razvan_Lab2.Models.Borrowing> Borrowing { get; set; } = default!;
     public DbSet<Pintea_Razvan_Lab2.Models.Publishers> Publishers { get; set; } = default!;
     public DbSet<Pintea_Razvan_Lab2.Models.Authors> Authors { get; set; } = default!;
     public DbSet<Pintea_Razvan_Lab2.Models.Category> Category { get; set; } = default!;
