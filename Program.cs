@@ -3,16 +3,35 @@ using Microsoft.EntityFrameworkCore;
 using Pintea_Razvan_Lab2.Data;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy =>
+   policy.RequireRole("Admin"));
+});
 var connectionString = builder.Configuration.GetConnectionString("Pintea_Razvan_Lab2Context") ?? throw new InvalidOperationException("Connection string 'Pintea_Razvan_Lab2Context' not found.");
 builder.Services.AddDbContext<LibraryIdentityContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("Pintea_Razvan_Lab2Context") ?? throw new InvalidOperationException("Connection string 'Pintea_Razvan_Lab2Context' not found.")));
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<LibraryIdentityContext>();
 builder.Services.AddDbContext<Pintea_Razvan_Lab2Context>(options => options.UseSqlServer(connectionString));
 
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy =>
+   policy.RequireRole("Admin"));
+});
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Books");
+    options.Conventions.AllowAnonymousToPage("/Books/Index");
+    options.Conventions.AllowAnonymousToPage("/Books/Details");
+    options.Conventions.AuthorizeFolder("/Members", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Members", "AdminPolicy");
+
+
+});
 
 var app = builder.Build();
 

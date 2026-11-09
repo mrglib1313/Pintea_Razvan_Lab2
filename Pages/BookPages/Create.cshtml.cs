@@ -1,14 +1,16 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Pintea_Razvan_Lab2.Migrations;
 using Pintea_Razvan_Lab2.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Pintea_Razvan_Lab2.Pages.BookPages;
 
+[Authorize(Roles = "Admin")]
 public class CreateModel : BookCategoriesPageModel
 {
     private readonly Pintea_Razvan_Lab2Context _context;

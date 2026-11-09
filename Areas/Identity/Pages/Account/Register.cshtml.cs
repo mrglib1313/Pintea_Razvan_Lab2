@@ -142,6 +142,7 @@ public class RegisterModel : PageModel
             return Page();
         }
 
+
         // Creăm membrul doar după crearea cu succes a contului.
         var member = new Member
         {
@@ -154,6 +155,7 @@ public class RegisterModel : PageModel
         _logger.LogInformation("User created a new account with password.");
 
         var userId = await _userManager.GetUserIdAsync(user);
+        var role = await _userManager.AddToRoleAsync(user, "User");
 
         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

@@ -1,10 +1,12 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Pintea_Razvan_Lab2.Models;
 
 namespace Pintea_Razvan_Lab2.Pages.CategoryPages;
 
+[Authorize(Roles = "Admin")]
 public class IndexModel : PageModel
 {
     private readonly Pintea_Razvan_Lab2Context _context;

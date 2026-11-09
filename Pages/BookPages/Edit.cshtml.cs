@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -7,6 +8,7 @@ using Pintea_Razvan_Lab2.Models;
 
 namespace Pintea_Razvan_Lab2.Pages.BookPages;
 
+[Authorize(Roles = "Admin")]
 public class EditModel : BookCategoriesPageModel
 {
     private readonly Pintea_Razvan_Lab2Context _context;
